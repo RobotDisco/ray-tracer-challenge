@@ -1,5 +1,7 @@
 (ns robot-disco.raytracer.core)
 
+(def ^:const EPSILON 0.00001)
+
 (defn make-tuple
   "Make a generic tuple"
   [x y z w]
@@ -49,25 +51,29 @@
     (and w
          (== w 0.0))))
 
+(defn tuplewise
+  "Perform an operation on every entry of the tuple"
+  [f & tuples]
+  (into [] (apply map f tuples)))
+
 (defn +
-  "Add two tuples together"
-  [a b]
-  (into [] (map clojure.core/+ a b)))
+  "Add n tuples together"
+  [& tuples]
+  (apply tuplewise clojure.core/+ tuples))
 
 (defn -
-  "Subtract one tuple from another. In unary form, subtract tuple from (0,0,0) vector."
-  ([a]  (into [] (map clojure.core/- a)))
-  ([a b] (into [] (map clojure.core/- a b))))
+  "Subtract n tuples from first. In unary form, negate all tuple values."
+  ([& tuples] (apply tuplewise clojure.core/- tuples)))
 
 (defn *
   "Multiply tuple by a scalar"
   [t s]
-  (into [] (map #(clojure.core/* % s) t)))
+  (tuplewise (partial clojure.core/* s) t))
 
 (defn /
   "Divide tuple by a scalar"
   [t s]
-  (into [] (map #(clojure.core// % s) t)))
+  (tuplewise #(clojure.core// % s) t))
 
 (defn magnitude
   "Give magnitude of vector"
@@ -76,3 +82,15 @@
                              (Math/pow (y v) 2.0)
                              (Math/pow (z v) 2.0)
                              (Math/pow (w v) 2.0))))
+
+(defn normalize
+  "Normalize vector"
+  [v]
+  (let [mag (magnitude v)]
+    (/ v mag)))
+
+(defn =
+  "Are two tuples close enough to another (every equivalent coord within epsilon)"
+  [a b]
+  (every? #(< % EPSILON)
+          (map (comp #(Math/abs %) clojure.core/-) a b)))

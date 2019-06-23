@@ -60,8 +60,13 @@
     (is (= (make-tuple 0.5 -1 1.5 -2) result1))))
 
 (deftest normal-vector-magnitudes
-  (is (= 1.0 (ray/magnitude (make-vector 1 0 0))))
-  (is (= 1.0 (ray/magnitude (make-vector 0 1 0))))
-  (is (= 1.0 (ray/magnitude (make-vector 0 0 1))))
-  (is (= (Math/sqrt 14) (ray/magnitude (make-vector 1 2 3))))
-  (is (= (Math/sqrt 14) (ray/magnitude (make-vector -1 -2 -3)))))
+  (is (== 1.0 (ray/magnitude (make-vector 1 0 0))))
+  (is (== 1.0 (ray/magnitude (make-vector 0 1 0))))
+  (is (== 1.0 (ray/magnitude (make-vector 0 0 1))))
+  (is (== (Math/sqrt 14) (ray/magnitude (make-vector 1 2 3))))
+  (is (== (Math/sqrt 14) (ray/magnitude (make-vector -1 -2 -3)))))
+
+(deftest normalize-vector
+  (is (= (make-vector 1 0 0) (ray/normalize (make-vector 4 0 0))))
+  (is (ray/= (make-vector 0.26726 0.53452 0.80178) (ray/normalize (make-vector 1 2 3))))
+  (is (== 1 (ray/magnitude (ray/normalize (make-vector 1 2 3))))))
