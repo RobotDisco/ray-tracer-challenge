@@ -48,3 +48,8 @@
   "Add two tuples together"
   [a b]
   (into [] (map clojure.core/+ a b)))
+
+(defn -
+  "Subtract one tuple from another"
+  [a b]
+  (into [] (map clojure.core/- a b)))
