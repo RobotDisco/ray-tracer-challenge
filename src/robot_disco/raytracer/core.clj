@@ -100,3 +100,13 @@
   [& vectors]
   (reduce clojure.core/+
           (apply map clojure.core/* vectors)))
+
+(defn cross
+  "Compute cross product of two vectors"
+  [[ax ay az] [bx by bz]]
+  (let [- clojure.core/-
+        * clojure.core/*]
+    (make-vector
+     (- (* ay bz) (* az by))
+     (- (* az bx) (* ax bz))
+     (- (* ax by) (* ay bx)))))

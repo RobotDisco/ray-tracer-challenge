@@ -73,3 +73,9 @@
 
 (deftest dot-product
   (is (== 20 (ray/dot (make-vector 1 2 3) (make-vector 2 3 4)))))
+
+(deftest cross-product
+  (let [a (make-vector 1 2 3)
+        b (make-vector 2 3 4)]
+    (is (= (make-vector -1 2 -1) (ray/cross a b)))
+    (is (= (make-vector 1 -2 1) (ray/cross b a)))))
