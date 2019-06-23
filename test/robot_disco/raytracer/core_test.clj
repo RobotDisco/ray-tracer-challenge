@@ -48,4 +48,10 @@
 (deftest negate-tuple
   (let [result1 (ray/- [1 -2 3 -4])]
     (is (= [-1 2 -3 4] result1))))
+
+(deftest multiply-tuple
+  (let [result1 (ray/* [1 -2 3 -4] 3.5)
+        result2 (ray/* [1 -2 3 -4] 0.2)]
+    (is (= [3.5 -7 10.5 -14] result1))
+    (is (= [0.5 -1 1.5 -2] result2))))
   

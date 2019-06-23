@@ -53,3 +53,8 @@
   "Subtract one tuple from another. In unary form, subtract tuple from (0,0,0) vector."
   ([a]  (into [] (map clojure.core/- a)))
   ([a b] (into [] (map clojure.core/- a b))))
+
+(defn *
+  "Multiply tuple by a scalar"
+  [t s]
+  (into [] (map clojure.core/* t)))
