@@ -1,6 +1,6 @@
 (ns robot-disco.raytracer.core-test
   (:require [clojure.test :refer :all]
-            [robot-disco.raytracer.core :as ray :refer [make-point make-vector]]))
+            [robot-disco.raytracer.core :as ray :refer [make-point make-vector make-tuple]]))
 
 (deftest new-point
   (let [result (make-point 4.3 -4.2 3.1)]
@@ -46,16 +46,22 @@
     (is (not (ray/point? result4)))))
 
 (deftest negate-tuple
-  (let [result1 (ray/- [1 -2 3 -4])]
-    (is (= [-1 2 -3 4] result1))))
+  (let [result (ray/- (make-tuple 1 -2 3 -4))]
+    (is (= (make-tuple -1 2 -3 4) result))))
 
 (deftest multiply-tuple
-  (let [result1 (ray/* [1.0 -2.0 3.0 -4.0] 3.5)
-        result2 (ray/* [1.0 -2.0 3.0 -4.0] 0.5)]
-    (is (= [3.5 -7.0 10.5 -14.0] result1))
-    (is (= [0.5 -1.0 1.5 -2.0] result2))))
+  (let [result1 (ray/* (make-tuple 1 -2 3 -4) 3.5)
+        result2 (ray/* (make-tuple 1 -2 3 -4) 0.5)]
+    (is (= (make-tuple 3.5 -7 10.5 -14) result1))
+    (is (= (make-tuple 0.5 -1 1.5 -2) result2))))
 
 (deftest divide-tuple
-  (let [result1 (ray// [1.0 -2.0 3.0 -4.0] 2)]
-    (is (= [0.5 -1.0 1.5 -2.0] result1))))
-  
+  (let [result1 (ray// (make-tuple 1 -2 3 -4) 2)]
+    (is (= (make-tuple 0.5 -1 1.5 -2) result1))))
+
+(deftest normal-vector-magnitudes
+  (is (= 1.0 (ray/magnitude (make-vector 1 0 0))))
+  (is (= 1.0 (ray/magnitude (make-vector 0 1 0))))
+  (is (= 1.0 (ray/magnitude (make-vector 0 0 1))))
+  (is (= (Math/sqrt 14) (ray/magnitude (make-vector 1 2 3))))
+  (is (= (Math/sqrt 14) (ray/magnitude (make-vector -1 -2 -3)))))

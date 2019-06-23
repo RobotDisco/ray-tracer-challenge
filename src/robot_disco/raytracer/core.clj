@@ -1,14 +1,19 @@
 (ns robot-disco.raytracer.core)
 
+(defn make-tuple
+  "Make a generic tuple"
+  [x y z w]
+  [(double x) (double y) (double z) (double w)])
+
 (defn make-point
   "Make a point tuple"
   [x y z]
-  [x y z 1.0])
+  (make-tuple x y z 1.0))
 
 (defn make-vector
   "Make a vector tuple"
   [x y z]
-  [x y z 0.0])
+  (make-tuple x y z 0.0))
 
 (defn x
   "tuple x coordinate"
@@ -63,3 +68,11 @@
   "Divide tuple by a scalar"
   [t s]
   (into [] (map #(clojure.core// % s) t)))
+
+(defn magnitude
+  "Give magnitude of vector"
+  [v]
+  (Math/sqrt (clojure.core/+ (Math/pow (x v) 2.0)
+                             (Math/pow (y v) 2.0)
+                             (Math/pow (z v) 2.0)
+                             (Math/pow (w v) 2.0))))
