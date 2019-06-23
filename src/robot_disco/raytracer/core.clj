@@ -94,3 +94,9 @@
   [a b]
   (every? #(< % EPSILON)
           (map (comp #(Math/abs %) clojure.core/-) a b)))
+
+(defn dot
+  "Compute dot product of vectors"
+  [& vectors]
+  (reduce clojure.core/+
+          (apply map clojure.core/* vectors)))

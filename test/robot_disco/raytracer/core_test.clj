@@ -70,3 +70,6 @@
   (is (= (make-vector 1 0 0) (ray/normalize (make-vector 4 0 0))))
   (is (ray/= (make-vector 0.26726 0.53452 0.80178) (ray/normalize (make-vector 1 2 3))))
   (is (== 1 (ray/magnitude (ray/normalize (make-vector 1 2 3))))))
+
+(deftest dot-product
+  (is (== 20 (ray/dot (make-vector 1 2 3) (make-vector 2 3 4)))))
