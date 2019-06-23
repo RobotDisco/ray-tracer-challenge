@@ -44,4 +44,8 @@
     (is (ray/vector? result3))
     (is (not (ray/vector? result4)))
     (is (not (ray/point? result4)))))
+
+(deftest negate-tuple
+  (let [result1 (ray/- [1 -2 3 -4])]
+    (is (= [-1 2 -3 4] result1))))
   
