@@ -57,4 +57,9 @@
 (defn *
   "Multiply tuple by a scalar"
   [t s]
-  (into [] (map clojure.core/* t)))
+  (into [] (map #(clojure.core/* % s) t)))
+
+(defn /
+  "Divide tuple by a scalar"
+  [t s]
+  (into [] (map #(clojure.core// % s) t)))

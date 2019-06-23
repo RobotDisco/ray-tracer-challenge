@@ -50,8 +50,12 @@
     (is (= [-1 2 -3 4] result1))))
 
 (deftest multiply-tuple
-  (let [result1 (ray/* [1 -2 3 -4] 3.5)
-        result2 (ray/* [1 -2 3 -4] 0.2)]
-    (is (= [3.5 -7 10.5 -14] result1))
-    (is (= [0.5 -1 1.5 -2] result2))))
+  (let [result1 (ray/* [1.0 -2.0 3.0 -4.0] 3.5)
+        result2 (ray/* [1.0 -2.0 3.0 -4.0] 0.5)]
+    (is (= [3.5 -7.0 10.5 -14.0] result1))
+    (is (= [0.5 -1.0 1.5 -2.0] result2))))
+
+(deftest divide-tuple
+  (let [result1 (ray// [1.0 -2.0 3.0 -4.0] 2)]
+    (is (= [0.5 -1.0 1.5 -2.0] result1))))
   
