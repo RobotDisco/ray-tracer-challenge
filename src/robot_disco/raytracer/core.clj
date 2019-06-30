@@ -3,12 +3,14 @@
 
 (def ^:const EPSILON 0.00001)
 
-(s/def ::vector (s/tuple number? number? number? (s/and
-                                                  number?
-                                                  zero?)))
-(s/def ::point (s/tuple number? number? number? (s/and
-                                                 number?
-                                                 #(< (Math/abs (- 1.0 %)) EPSILON))))
+(s/def ::vector (s/and clojure.core/vector?
+                       (s/tuple number? number? number? (s/and
+                                                         number?
+                                                         zero?))))
+(s/def ::point (s/and clojure.core/vector?
+                      (s/tuple number? number? number? (s/and
+                                                        number?
+                                                        #(< (Math/abs (- 1.0 %)) EPSILON)))))
 (s/def ::tuple (s/or :vector ::vector :point ::point))
 
 (defn make-tuple
@@ -95,6 +97,12 @@
   [f]
   (fn [& tuples] (into [] (apply map f tuples))))
 
+(s/fdef tuplewise
+  :args (s/cat :function (s/fspec
+                          :args (s/+ ::tuple)
+                          :ret (s/tuple number? number? number? number?)))
+  :ret ::tuple)
+
 (def +
   "Add n tuples together"
   (tuplewise clojure.core/+))
@@ -108,10 +116,18 @@
   [t s]
   ((tuplewise (partial clojure.core/* s)) t))
 
+(s/fdef *
+  :args (s/cat :tuple ::tuple :scalar number?)
+  :ret ::tuple)
+
 (defn /
   "Divide tuple by a scalar"
   [t s]
   ((tuplewise #(clojure.core// % s)) t))
+
+(s/fdef /
+  :args (s/cat :tuple ::tuple :scalar number?)
+  :ret ::tuple)
 
 (defn magnitude
   "Give magnitude of vector"
