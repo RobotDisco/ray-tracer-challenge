@@ -91,28 +91,27 @@
   :ret boolean?)
 
 (defn tuplewise
-  "Perform an operation on every entry of the tuple"
-  [f & tuples]
-  (into [] (apply map f tuples)))
+  "Return a function that will map over a sequence of tuples"
+  [f]
+  (fn [& tuples] (into [] (apply map f tuples))))
 
-(defn +
+(def +
   "Add n tuples together"
-  [& tuples]
-  (apply tuplewise clojure.core/+ tuples))
+  (tuplewise clojure.core/+))
 
-(defn -
+(def -
   "Subtract n tuples from first. In unary form, negate all tuple values."
-  ([& tuples] (apply tuplewise clojure.core/- tuples)))
+  (tuplewise clojure.core/-))
 
 (defn *
   "Multiply tuple by a scalar"
   [t s]
-  (tuplewise (partial clojure.core/* s) t))
+  ((tuplewise (partial clojure.core/* s)) t))
 
 (defn /
   "Divide tuple by a scalar"
   [t s]
-  (tuplewise #(clojure.core// % s) t))
+  ((tuplewise #(clojure.core// % s)) t))
 
 (defn magnitude
   "Give magnitude of vector"
